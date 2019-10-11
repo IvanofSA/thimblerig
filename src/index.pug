@@ -1,0 +1,20 @@
+extends layout/template
+
+block vars
+
+block head
+	//+loadCSS('/css/promo.css')
+
+block content
+	.container
+		h1.msg.js-msg Наперстки
+		.cups
+			#cup-1.cup(data-id='1')
+				.ball.js-ball
+			#cup-2.cup(data-id='2')
+			#cup-3.cup(data-id='3')
+		button.btn.btn_start.js-start Играть
+
+
+block footer
+	script(src="/js/main.bundle.js")
