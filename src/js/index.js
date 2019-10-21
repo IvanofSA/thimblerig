@@ -27,18 +27,18 @@ class Game {
 	}
 
 	addEventListners() {
-		let that = this;
-		this.btn.addEventListener('click', function () {
-			that.start();
+		// let that = this;
+		this.btn.addEventListener('click', () => {
+			this.start();
 		});
 	}
 
 	start() {
 		let that = this;
-		that.reset();
-		that.ballId = that.getRandomInt(1, that.cupsLength);
-		that.setPosBall();
-		that.timerId = setTimeout(function request() {
+		this.reset();
+		this.ballId = this.getRandomInt(1, this.cupsLength);
+		this.setPosBall();
+		this.timerId = setTimeout(function request() {
 			that.shuffle();
 			that.timerId = setTimeout(request, that.speed + that.bufferTime);
 		}, that.speed);
@@ -55,37 +55,35 @@ class Game {
 	}
 
 	checkCup(el) {
-		let that = this,
-			cupId = el.getAttribute('data-id');
+		let cupId = el.getAttribute('data-id');
 
 		el.style.bottom = '50px';
 
-		if(cupId == that.ballId) {
-			that.ball.style.opacity = '1';
-			that.ball.style.bottom = '-50px';
+		if(cupId == this.ballId) {
+			this.ball.style.opacity = '1';
+			this.ball.style.bottom = '-50px';
 		}
-		if(cupId == that.ballId && that.status != 'finish') {
-			that.status = 'finish';
-			that.title.innerHTML = 'Угадал';
+		if(cupId == this.ballId && this.status != 'finish') {
+			this.status = 'finish';
+			this.title.innerHTML = 'Угадал';
 		}
-		if(cupId != that.ballId && that.status != 'finish') {
-			that.status = 'finish';
-			that.title.innerHTML = 'Не угадал';
+		if(cupId != this.ballId && this.status != 'finish') {
+			this.status = 'finish';
+			this.title.innerHTML = 'Не угадал';
 		}
 
-		that.btn.innerHTML = 'Еще раз';
+		this.btn.innerHTML = 'Еще раз';
 	}
 
 	reset() {
-		let that = this;
 
-		clearTimeout(that.timerId);
-		that.status = 'game';
-		that.title.innerHTML = 'Наперстки';
-		that.btn.innerHTML = 'Играть';
-		that.ball.style.bottom = '0';
-		that.ball.style.opacity = '1';
-		that.cups.forEach((el) => {
+		clearTimeout(this.timerId);
+		this.status = 'game';
+		this.title.innerHTML = 'Наперстки';
+		this.btn.innerHTML = 'Играть';
+		this.ball.style.bottom = '0';
+		this.ball.style.opacity = '1';
+		this.cups.forEach((el) => {
 			el.style.bottom = '0';
 			el.style.cursor = 'default';
 			el.removeEventListener('click', this.checkCup)
@@ -93,20 +91,19 @@ class Game {
 	}
 
 	shuffle() {
-		let that = this;
-		let randCup1 = that.cups[that.getRandomInt(0, that.cupsLength - 1)],
-			randCup2 = that.cups[that.getRandomInt(0, that.cupsLength - 1)];
+		let randCup1 = this.cups[this.getRandomInt(0, this.cupsLength - 1)],
+			randCup2 = this.cups[this.getRandomInt(0, this.cupsLength - 1)];
 
-		that.ball.style.opacity = '0';
+		this.ball.style.opacity = '0';
 
 		if(randCup1.isEqualNode(randCup2)) {
-			that.shuffle();
+			this.shuffle();
 		} else {
 			let cup1Offset = randCup1.offsetLeft,
 				cup2Offset = randCup2.offsetLeft;
 
 			this.animate({
-				duration: that.speed,
+				duration: this.speed,
 				timing: function (timeFraction) {
 					return Math.pow(timeFraction, 2);
 				},
@@ -155,9 +152,8 @@ class Game {
 	}
 
 	setPosBall() {
-		let that = this;
-		let currentCup = $(`#cup-${that.ballId}`);
-		currentCup.insertAdjacentElement('beforeend', that.ball);
+		let currentCup = $(`#cup-${this.ballId}`);
+		currentCup.insertAdjacentElement('beforeend', this.ball);
 	}
 }
 
